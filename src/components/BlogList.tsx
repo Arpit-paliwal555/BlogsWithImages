@@ -1,18 +1,19 @@
 import type { FunctionComponent } from "react";
+import type { IBlogpost } from "../interfaces/IBlogPost";
+import BlogCard from "./BlogCard";
+import { div } from "framer-motion/client";
 
 interface BlogListProps {
-    
+       list: IBlogpost[]
 }
  
-const BlogList: FunctionComponent<BlogListProps> = () => {
+const BlogList: FunctionComponent<BlogListProps> = (props:BlogListProps) => {
+    const {list} = props;
     return (
-        <div className="border-2 h-screen p-4 mt-1">
-           lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-           lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-           lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-           lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-           lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-           lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum     
+        <div>
+        {list.map((blog:IBlogpost)=>(
+                <BlogCard key={blog.id} {...blog}></BlogCard>
+        ))}
         </div>
     );
 }
