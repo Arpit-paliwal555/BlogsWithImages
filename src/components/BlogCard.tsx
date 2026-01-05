@@ -4,11 +4,15 @@ import type { IBlogpost } from "../interfaces/IBlogPost";
  
 const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
     const {title, description, publishedAt} = props;
-    return (<div>
-        <h1>{title}</h1>
+    const date = new Date(publishedAt);
+
+
+    return (
+    <div className="border-2 mt-1 mb-1 p-2">
+        <h1 className="font-bold">{title}</h1>
         <p>{description}</p>
         <div>
-            <p>{publishedAt}</p>
+            <p>{date.toDateString()}</p>
         </div>
     </div>  );
 }
