@@ -17,29 +17,24 @@ type SortOrder = "asc" | "dsc";
 
 // function to include check-insensitivity
 const includesCI = (heystack: string, needle: string) => {
-  return heystack.toLocaleLowerCase().includes(needle.toLowerCase());
+  return heystack.toLowerCase().includes(needle.toLowerCase());
 };
 
 //comparator factory
 const makeComparator = (field: SortFields, order: SortOrder) => {
-  const dir = order === "asc" ? 1 : -1;
-  return (a: IBlogpost, b: IBlogpost) => {
-    switch (field) {
+  const dir = order==="asc"?1:-1;
+  return (a:IBlogpost, b:IBlogpost)=>{
+    switch(field){
       case "title":
-        return a.title.localeCompare(b.title) * dir;
+        return a.title.localeCompare(b.title)*dir;
       case "viewCount":
-        return (a.viewCount - b.viewCount) * dir;
+        return (a.viewCount-b.viewCount)*dir;
       case "publishedAt":
-        //iso string compare works lexicographically
-        return (
-          (new Date(a.publishedAt).getTime() -
-            new Date(b.publishedAt).getTime()) *
-          dir
-        );
+        return (new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime())*dir;
       default:
         return 0;
-    }
-  };
+  }
+  }
 };
 const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
   // ui--states
@@ -101,7 +96,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
         />
         <div className="flex gap-2">
           <label className="flex items-center gap-2 border p-1">
-            <span className="text-sm">Sort by</span>
+            <span className="text-sm">Sort By</span>
             <select
               value={sortFields}
               onChange={onSortFieldChange}
