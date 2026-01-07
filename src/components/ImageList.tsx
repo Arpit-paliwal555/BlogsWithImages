@@ -53,30 +53,36 @@ export const ImageList: FunctionComponent<ImageListProps> = ({images})=>{
         return [...filtered].sort(comparator);
     },[images, debounceQuery, sortField, sortOrder]);
     return(
-        <div className="flex flex-col items-center">
-            <div>
+        <div className="border-2 p-5 mt-0.5 gap-5 flex flex-col items-center">
+            <div className="w-full max-w-2xl flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
                 <input type="text"
                 value={query}
                 onChange={onQueryChange}
-                placeholder="Search by caption of the image" />
-                <div>
-                    <label>
-                        <span>Sort By</span>
+                placeholder="Search by caption of the image"
+                className="p-1 border-2 w-full"
+                aria-label="Search by caption of the image" />
+                <div className="flex gap-2">
+                    <label className="flex items-center gap-2 border p-1">
+                        <span  className="text-sm">Sort By</span>
                         <select 
                             value={sortField}
                             onChange={onSortFieldChange}
                             aria-label="Sort Field"
+                            className="block w-full rounded-lg border border-gray-300bg-white px-3 py-2 text-sm
+                            focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
                             <option value="publishedAt">Published At</option>
                             <option value="caption">Caption</option>
                         </select>
                     </label>
-                    <label>
-                        <span>Order</span>
+                    <label className="flex items-center gap-2 border p-1">
+                        <span className="text-sm">Order</span>
                         <select 
                             value={sortOrder}
                             onChange={onSortOrderChange}
                             aria-label="Sort Order"
+                            className="block w-full rounded-lg border border-gray-300bg-white px-3 py-2 text-sm
+                            focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
                             <option value="asc">Asc</option>
                             <option value="dsc">Dsc</option>
@@ -85,7 +91,7 @@ export const ImageList: FunctionComponent<ImageListProps> = ({images})=>{
                 </div>
             </div>
             {/*results*/}
-            <div>
+            <div className="w-full max-w-2xl mt-4 flex flex-col gap-4 items-center">
                 {filteredAndSorted.length===0? (<p>
                     No Results For "{debounceQuery}".
                 </p>):(
