@@ -8,9 +8,10 @@ const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
 
 
     return (
-    <div className="border-2 mt-1 mb-1 p-2">
+    <div className="border-2 mt-1 mb-1 p-2 flex flex-col justify-between h-auto w-full rounded-lg 
+    hover:shadow-lg hover:scale-105 transition-transform duration-200 ease-in-out">
         <h1 className="font-bold">{title}</h1>
-        <p>{description}</p>
+        <p className="grow">{description}</p>
         <div>
             <p>{date.toDateString()}</p>
         </div>

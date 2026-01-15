@@ -125,7 +125,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
       </div>
 
       {/* Results */}
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-2xl gap-2 flex flex-col">
         {filteredAndSorted.length === 0 ? (
           <p className="text-center text-sm text-gray-500 mt-4">
             No results for “{debouncedQuery}”.
