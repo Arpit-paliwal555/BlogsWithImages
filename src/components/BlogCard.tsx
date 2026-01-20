@@ -13,7 +13,7 @@ const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
         <h1 className="font-bold">{title}</h1>
         <p className="grow">{description}</p>
         <div>
-            <p>{date.toDateString()}</p>
+            <p className="font-light text-sm">{date.toDateString()}</p>
         </div>
     </div>  );
 }

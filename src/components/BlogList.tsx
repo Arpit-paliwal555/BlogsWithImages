@@ -84,8 +84,8 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
   }, [list, debouncedQuery, sortFields, sortOrder]);
 
   return (
-    <div className="border-2 p-5 mt-0.5 gap-5 flex flex-col items-center">
-      <div className="w-full max-w-2xl flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+    <div>
+    <div className="w-full max-w-full flex justify-between sm:flex-row gap-3 items-stretch sm:items-center">
         <input
           type="text"
           value={query}
@@ -123,7 +123,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
           </label>
         </div>
       </div>
-
+    <div className="border-2 p-5 mt-0.5 gap-5 flex flex-col items-center">
       {/* Results */}
       <div className="w-full max-w-2xl gap-2 flex flex-col">
         {filteredAndSorted.length === 0 ? (
@@ -134,6 +134,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
           filteredAndSorted.map((blog) => <BlogCard key={blog.id} {...blog} />)
         )}
       </div>
+    </div>
     </div>
   );
 };
