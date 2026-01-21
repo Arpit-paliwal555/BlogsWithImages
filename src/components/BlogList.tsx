@@ -123,7 +123,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
           </label>
         </div>
       </div>
-    <div className="border-2 p-5 mt-0.5 gap-5 flex flex-col items-center">
+    <div className="border-2 border-gray-600 rounded-xl p-5 mt-0.5 gap-5 flex flex-col items-center">
       {/* Results */}
       <div className="w-full max-w-2xl gap-2 flex flex-col">
         {filteredAndSorted.length === 0 ? (

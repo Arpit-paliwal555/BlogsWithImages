@@ -11,7 +11,9 @@ export const blogsList:IBlogpost[] = [
   {
     id: 2,
     title: "TypeScript Best Practices",
-    description: "Learn how to write clean, maintainable TypeScript code with interfaces and generics.",
+    description: `Learn how to write clean, maintainable TypeScript code with interfaces and generics. 
+    Learn how to write clean, maintainable TypeScript code with interfaces and generics. 
+    lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum`,
     viewCount: 850,
     publishedAt: "2025-12-20T14:15:00Z"
   },
