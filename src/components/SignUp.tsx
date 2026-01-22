@@ -20,7 +20,8 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
     
     return (
      <div className="border-2 h-screen mt-0.5 p-2 flex flex-col items-center justify-center">
-        <h1 className="text-bold text-2xl">Sign Up</h1>
+        <div className="w-2xs">
+        <h1 className="text-bold text-2xl ml-26">Sign Up</h1>
         <form action="submit" className="flex flex-col">
             <label htmlFor="username">Username</label>
             <input
@@ -46,6 +47,7 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
             />
             <button type="submit" className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4">Sign Up</button>
         </form>
+        </div>
     </div> );
 }
  
