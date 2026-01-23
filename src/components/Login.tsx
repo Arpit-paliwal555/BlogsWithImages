@@ -33,6 +33,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
                 className="border p-1 rounded-md"
             />
             <button type="submit" className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4">Log In</button>
+            <p className="ml-6">don't have an account? <a href="/signup" className="text-blue-500">Sign Up</a></p>
         </form>
     </div>
     </div>);

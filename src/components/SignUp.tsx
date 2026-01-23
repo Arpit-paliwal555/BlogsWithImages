@@ -46,6 +46,7 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
                 className="border p-1 rounded-md"
             />
             <button type="submit" className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4">Sign Up</button>
+            <p className="ml-6">already have an account? <a href="/login" className="text-blue-500">Login</a></p>
         </form>
         </div>
     </div> );
