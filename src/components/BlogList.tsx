@@ -85,7 +85,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
 
   return (
     <div>
-    <div className="w-full max-w-full flex justify-between sm:flex-row gap-3 items-stretch sm:items-center">
+    <div className="w-full mb-2 max-w-full flex justify-between sm:flex-row gap-3 items-stretch sm:items-center">
         <input
           type="text"
           value={query}

@@ -14,11 +14,11 @@ const Navbar: FunctionComponent<NavbarProps> = ()=>{
         <nav className="flex justify-between p-4 border-2 bg-linear-to-r from-[#d1d5db] via-[#6b7280] to-[#374151]">
             <div className="flex gap-1 items-center">
                 <img className="w-10 h-10" src="src\assets\blog.svg" alt="NA" />
-                <h1>Blog & Images</h1>
+                <h1 className="dancing-script">Blog & Images</h1>
             </div>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 w-1/3 items-center">
                 <NavLink
-                    to='/'
+                    to='/home'
                     end
                     className={({isActive})=>
                     `${baseLink} ${isActive ? activeLink : "text-gray-300"  }`}
@@ -43,6 +43,7 @@ const Navbar: FunctionComponent<NavbarProps> = ()=>{
                     >
                     Options
                 </NavLink>
+                <button className="border-2 rounded-sm w-1/3 p-3 cursor-pointer text-white/80">Publish</button>
             </div>
         </nav>
     )
