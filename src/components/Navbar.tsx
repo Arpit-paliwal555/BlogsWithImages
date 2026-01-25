@@ -43,7 +43,9 @@ const Navbar: FunctionComponent<NavbarProps> = ()=>{
                     >
                     Options
                 </NavLink>
-                <button className="border-2 rounded-sm w-1/3 p-3 cursor-pointer text-white/80">Publish</button>
+                <button 
+                className="border-2 rounded-sm w-1/3 p-3 cursor-pointer text-white/80"
+                ><NavLink to="/publish">Publish</NavLink></button>
             </div>
         </nav>
     )
