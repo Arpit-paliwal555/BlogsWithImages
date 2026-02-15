@@ -1,5 +1,7 @@
 import { type FunctionComponent } from "react";
 import { useFormik, type FormikHelpers } from "formik";
+import axios, { type AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface SignupFormProps {}
 
@@ -10,6 +12,7 @@ interface Values {
 }
 
 const SignupForm: FunctionComponent<SignupFormProps> = () => {
+  const navigate = useNavigate();
   const formik = useFormik<Values>({
     initialValues: { username: "", email: "", password: "" },
     validate: (values) => {
@@ -37,15 +40,23 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
 
       return errors;
     },
-    onSubmit: (values, { setSubmitting }: FormikHelpers<Values>) => {
+    onSubmit: async (values, { setSubmitting }: FormikHelpers<Values>) => {
       // TODO: replace with your API call
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+      try {
+        const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+        const res = await axios.post(`${baseUrl}/api/users/signup`, values);
+
+        navigate("/home", {replace:true});
+      } catch (error) {
+        if(axios.isAxiosError(error)){
+          const msg = error.response?.data?.message || "an axios error occured";
+          alert(msg)
+        }
+      }finally{
         setSubmitting(false);
-      }, 500);
+      }
     },
   });
-  console.log(formik);
 
   return (
     <div className="border-2 h-screen mt-0.5 p-2 flex flex-col items-center justify-center">
@@ -104,7 +115,7 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
           <button
             type="submit"
             disabled={formik.isSubmitting}
-            className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4 disabled:opacity-60"
+            className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4 disabled:opacity-60 cursor-pointer"
           >
             {formik.isSubmitting ? "Submitting..." : "Sign Up"}
           </button>
