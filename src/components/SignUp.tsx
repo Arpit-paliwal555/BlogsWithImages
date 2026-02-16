@@ -44,7 +44,7 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
       // TODO: replace with your API call
       try {
         const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
-        const res = await axios.post(`${baseUrl}/api/users/signup`, values);
+        const res = await axios.post(`${baseUrl}/api/users/signup`, values, {withCredentials: true});
 
         navigate("/home", {replace:true});
       } catch (error) {

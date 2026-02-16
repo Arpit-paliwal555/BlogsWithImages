@@ -2,6 +2,8 @@ import{ type FunctionComponent } from "react";
 import {useFormik, type FormikHelpers} from "formik";
 import axios, { type AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
+
 interface LoginFormProps {
     
 }
@@ -34,7 +36,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
                     return;
                 }
 
-                const res = await axios.post(`${baseUrl}/api/users/signin`, values);
+                const res = await api.post("/api/users/signin", values, {withCredentials: true});
                 navigate("/home", {replace:true});
             }catch(error){
                 if(axios.isAxiosError(error)){
