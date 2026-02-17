@@ -56,7 +56,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
         <div className="w-2xs">
         <h1 className="text-bold text-2xl ml-26">Log In</h1>
         <form action="submit" onSubmit={formik.handleSubmit} className="flex flex-col">
-            <label htmlFor="email">email</label>
+            <label htmlFor="email">Email</label>
             <input
                 id="email"
                 name="email"

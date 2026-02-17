@@ -4,6 +4,7 @@ import type { FunctionComponent } from "react";
 type CreateBlogProps = {};
 
 const CreateBlog: FunctionComponent<CreateBlogProps> = () => {
+  
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       <form
