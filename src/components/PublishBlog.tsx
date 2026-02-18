@@ -1,13 +1,48 @@
 
+import { Formik, useFormik, type FormikHelpers } from "formik";
 import type { FunctionComponent } from "react";
+import { api } from "../services/api";
 
 type CreateBlogProps = {};
-
+interface Values{
+    title:string,
+    description:string
+}
 const CreateBlog: FunctionComponent<CreateBlogProps> = () => {
-  
+  const formik = useFormik<Values>({
+    initialValues: {title:"", description:""},
+    validate:(values)=>{
+      const errors:Partial<Record<keyof Values, string>> = {};
+
+      if(!values.title){
+        errors.title = "Title is Required!";
+      }else if(!values.description){
+        errors.description = "Description is Required!"
+      }
+      return errors
+    },
+    onSubmit: async(values, {setSubmitting}:FormikHelpers<Values>)=>{
+        try{
+          const baseUrl = import.meta.env.VITE_BACKEND_URL;
+          if(!baseUrl){
+            alert("Backend URL is not defined. Please set VITE_BACKEND_URL in your environment variables.");
+            return;
+          }
+          // Make API call to publish the blog post
+          const res = await api.post("/api/blogs", values, {withCredentials: true});
+          alert("Blog published successfully!");
+          formik.resetForm();
+        }catch(error){
+          alert("An error occurred while publishing the blog.");
+        }finally{
+          setSubmitting(false);
+        }
+      
+    }
+  })
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
-      <form
+      <form action='submit' onSubmit={formik.handleSubmit}
         className="w-full max-w-md rounded-2xl border border-slate-200  backdrop-blur shadow-xl ring-1 ring-black/5 dark:ring-white/5
                    p-6 sm:p-8 space-y-6 transition-shadow"
       >
@@ -39,7 +74,13 @@ const CreateBlog: FunctionComponent<CreateBlogProps> = () => {
                        px-3.5 py-2.5 
                        shadow-sm focus:outline-none focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500
                        dark:focus:ring-cyan-400/20 dark:focus:border-cyan-400 transition"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.title}
           />
+          {formik.touched.title && formik.errors.title && (
+            <p className="text-xs text-red-500">{formik.errors.title}</p>
+          )}
           <p className="text-xs text-slate-500 dark:text-slate-400">
             Keep it concise and descriptive.
           </p>
@@ -48,14 +89,14 @@ const CreateBlog: FunctionComponent<CreateBlogProps> = () => {
         {/* Content */}
         <div className="space-y-2">
           <label
-            htmlFor="content"
+            htmlFor="description"
             className="block text-sm font-medium "
           >
-            Content
+            Description
           </label>
           <textarea
-            id="content"
-            name="content"
+            id="description"
+            name="description"
             required
             rows={6}
             placeholder="Write your story..."
@@ -63,7 +104,13 @@ const CreateBlog: FunctionComponent<CreateBlogProps> = () => {
                        px-3.5 py-3 
                        shadow-sm focus:outline-none focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500
                        dark:focus:ring-cyan-400/20 dark:focus:border-cyan-400 transition"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.description}
           />
+          {formik.touched.description && formik.errors.description && (
+            <p className="text-xs text-red-500">{formik.errors.description}</p>
+          )}
           <div className="flex items-center justify-between">
             <p className="text-xs text-slate-500 dark:text-slate-400">
               Markdown supported (optional).
