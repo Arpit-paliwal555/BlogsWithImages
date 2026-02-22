@@ -4,6 +4,7 @@ import type { IBlogpost } from "../interfaces/IBlogPost";
  
 const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
     const {title, description, publishedAt} = props;
+    const {user} = props;
     const date = new Date(publishedAt);
 
 
@@ -12,8 +13,9 @@ const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
     hover:shadow-lg hover:scale-105 transition-transform duration-200 ease-in-out">
         <h1 className="font-bold">{title}</h1>
         <p className="grow">{description}</p>
-        <div>
+        <div className="flex justify-between">
             <p className="font-light text-sm">{date.toDateString()}</p>
+            <p className="font-light text-sm">By: {user.username}</p>
         </div>
     </div>  );
 }

@@ -4,4 +4,8 @@ export interface IBlogpost{
     description: string;
     viewCount: number;
     publishedAt: string;
+    user: {
+        id: number;
+        username: string;
+    }
 }
