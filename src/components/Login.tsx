@@ -1,6 +1,6 @@
 import{ type FunctionComponent } from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import { AuthContext } from "../context/AuthContext";
@@ -38,7 +38,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
             if (!values.password) errors.password = "Password is required!";
             return errors;
             }}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
+            onSubmit={async (values, { setSubmitting}) => {
                        try{
                 const baseUrl = import.meta.env.VITE_BACKEND_URL;
                 if(!baseUrl){
@@ -65,7 +65,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
             }}
         >
             
-        {({ isSubmitting }) => (
+        {() => (
         <Form className="flex flex-col">
             <label htmlFor="email">Email</label>
             <Field
