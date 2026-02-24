@@ -1,6 +1,4 @@
 import BlogList from './BlogList'
-import { Images } from '../utils/ImagePost'
-import { ImageList } from './ImageList'
 import type { IBlogpost } from '../interfaces/IBlogPost'
 import { useEffect, useState } from 'react'
 import { blogService } from '../services/blogs.service'

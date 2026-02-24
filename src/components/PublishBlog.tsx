@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { api } from "../services/api";
 
@@ -12,6 +12,7 @@ interface Values {
 
 export default function CreateBlog() {
   const auth = useContext(AuthContext);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   if (!auth) {
     return <p className="text-red-500 text-center">You must be logged in to publish a blog.</p>;
@@ -55,6 +56,7 @@ export default function CreateBlog() {
             });
             alert("Blog published successfully!");
             resetForm();
+            setPreviewUrl(null);
           } catch (e) {
             alert("Error publishing blog.");
           } finally {
@@ -62,7 +64,7 @@ export default function CreateBlog() {
           }
         }}
       >
-        {({ isSubmitting, setFieldValue, values }) => (
+        {({ isSubmitting, setFieldValue}) => (
           <Form className="w-full max-w-md p-6 rounded-xl shadow-lg space-y-6">
             <h1 className="text-2xl font-bold text-center">Publish Blog</h1>
             <div>
@@ -73,7 +75,8 @@ export default function CreateBlog() {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                     if (file) {
-                      setFieldValue("imageUrl", file); // store the file object, not base64
+                      setFieldValue("imageUrl", file); // store the file object, not base6
+                      setPreviewUrl(URL.createObjectURL(file)); // create a preview URL for the image
                     }
                 }}
                 className="hidden"
@@ -81,8 +84,8 @@ export default function CreateBlog() {
               />
 
               <label htmlFor="image-upload" className="border-2 border-dashed rounded-lg p-4 flex items-center justify-center cursor-pointer block">
-                {values.imageUrl ? (
-                  <img src={values.imageUrl} alt="Preview" className="max-h-40 object-contain" />
+                {previewUrl ? (
+                  <img src={previewUrl} alt="Preview" className="max-h-40 object-contain" />
                 ) : (
                   <img src="/src/assets/camera.svg" alt="Upload Image" className="w-12 h-12" />
                 )}
