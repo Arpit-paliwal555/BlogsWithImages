@@ -20,11 +20,10 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
         return <p className="text-center text-red-500">Auth context is not available. Please ensure you are within an AuthProvider.</p>;
     }
     const {setUser} = auth;
-    
     return ( 
         <div className="border-2 h-screen mt-0.5 p-2 flex flex-col items-center justify-center">
         <div className="w-2xs">
-        <h1 className="text-bold text-2xl ml-26">Log In</h1>
+        <h1 className="text-bold text-2xl text-center">Log In</h1>
         <Formik
             initialValues={{
             email: "",
@@ -46,7 +45,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
                     return;
                 }
 
-                const res = await api.post("/api/users/signin", values, {withCredentials: true});
+                await api.post("/api/users/signin", values, {withCredentials: true});
                 
                 const me = await api.get("/api/users/me", {withCredentials: true});
                 setUser(me.data);
@@ -65,32 +64,42 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
             }}
         >
             
-        {() => (
-        <Form className="flex flex-col">
-            <label htmlFor="email">Email</label>
+        {(formik) => (
+        <Form className="flex flex-col gap-1 mt-4">
+            {/* <label htmlFor="email">Email</label> */}
             <Field
                 name="email"
                 type="text"
                 className="border p-1 rounded-md"
+                placeholder="Email"
             />
-            <ErrorMessage
-                name="email"
-                component="p"
-                className="text-xs text-red-500"
-            />
-            <label htmlFor="password">Password</label>
+            <p className="p-1 h-4">
+                {formik.touched.email && formik.errors.email ? 
+                <ErrorMessage
+                    name="email"
+                    component="p"
+                    className="text-xs text-red-500"
+                /> : ""}
+                
+            </p>
+            {/* <label htmlFor="password">Password</label> */}
             <Field
                 id="password"
                 name="password"
                 type="password"
                 className="border p-1 rounded-md"
+                placeholder="Password"
             />
-            <ErrorMessage
-                name="password"
-                component="p"
-                className="text-xs text-red-500"
-            />
-            <button type="submit" className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4 cursor-pointer">Log In</button>
+            <p className="p-1 h-4">
+                {formik.touched.password && formik.errors.password ? 
+                <ErrorMessage
+                    name="password"
+                    component="p"
+                    className="text-xs text-red-500"
+                /> : ""}
+                
+            </p>
+            <button type="submit" className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-1 cursor-pointer">Log In</button>
             <p className="ml-6">don't have an account? <a href="/signup" className="text-blue-500">Sign Up</a></p>
         </Form>
         )}

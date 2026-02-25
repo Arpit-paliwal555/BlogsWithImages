@@ -1,6 +1,6 @@
 import { type FunctionComponent } from "react";
 import { useFormik, type FormikHelpers } from "formik";
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface SignupFormProps {}
@@ -43,8 +43,8 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
     onSubmit: async (values, { setSubmitting }: FormikHelpers<Values>) => {
       // TODO: replace with your API call
       try {
-        const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
-        const res = await axios.post(`${baseUrl}/api/users/signup`, values, {withCredentials: true});
+        const baseUrl = import.meta.env.VITE_BACKEND_URL;
+        await axios.post(`${baseUrl}/api/users/signup`, values, {withCredentials: true});
 
         navigate("/home", {replace:true});
       } catch (error) {
@@ -57,15 +57,18 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
       }
     },
   });
+  
+  // utility
+  const hasErr = (name: keyof typeof formik.values) =>
+    !!(formik.touched[name] && formik.errors[name]);
 
   return (
     <div className="border-2 h-screen mt-0.5 p-2 flex flex-col items-center justify-center">
       <div className="w-2xs">
         <h1 className="font-bold text-2xl text-center">Sign Up</h1>
 
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-2 mt-4">
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-1 mt-4">
           {/* Username */}
-          <label htmlFor="username">Username</label>
           <input
             id="username"
             name="username"
@@ -75,13 +78,17 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
             onBlur={formik.handleBlur}
             value={formik.values.username}
             autoComplete="username"
+            placeholder="Username"
+            aria-invalid={hasErr("username")}
+            aria-describedby="username-error"
           />
-          {formik.errors.username && formik.touched.username && (
-            <div className="text-red-600 text-sm">{formik.errors.username}</div>
-          )}
+          <p id="username-error" className={`text-xs mt-0 h-4 leading-5 transition-colors duration-200 ${hasErr("username") ? "text-red-600" : "text-transparent"}`}
+          aria-live="polite">
+          {formik.touched.username && formik.errors.username
+              ? formik.errors.username: ""}
+          </p>
 
           {/* Email */}
-          <label htmlFor="email">Email Address</label>
           <input
             id="email"
             name="email"
@@ -91,13 +98,16 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
             onBlur={formik.handleBlur}
             value={formik.values.email}
             autoComplete="email"
+            placeholder="Email"
+            aria-invalid={hasErr("email")}
+            aria-describedby="email-error"
           />
-          {formik.errors.email && formik.touched.email && (
-            <div className="text-red-600 text-sm">{formik.errors.email}</div>
-          )}
-
+          <p id="email-error" className={`text-xs mt-0 h-4 leading-5 transition-colors duration-200 ${hasErr("email") ? "text-red-600" : "text-transparent"}`}
+          aria-live="polite">
+          {formik.touched.email && formik.errors.email
+              ? formik.errors.email: ""}
+          </p>
           {/* Password */}
-          <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
@@ -107,15 +117,20 @@ const SignupForm: FunctionComponent<SignupFormProps> = () => {
             onBlur={formik.handleBlur}
             value={formik.values.password}
             autoComplete="new-password"
+            placeholder="Password"
+            aria-invalid={hasErr("password")}
+            aria-describedby="password-error"
           />
-          {formik.errors.password && formik.touched.password && (
-            <div className="text-red-600 text-sm">{formik.errors.password}</div>
-          )}
+          <p id="password-error" className={`text-xs mt-0 h-4 leading-5 transition-colors duration-200 ${hasErr("password") ? "text-red-600" : "text-transparent"}`}
+          aria-live="polite">
+          {formik.touched.password && formik.errors.password
+              ? formik.errors.password: "placeholder"}
+          </p>
 
           <button
             type="submit"
             disabled={formik.isSubmitting}
-            className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-4 disabled:opacity-60 cursor-pointer"
+            className="bg-gray-950 text-cyan-50 rounded-md p-1 mt-2 disabled:opacity-60 cursor-pointer"
           >
             {formik.isSubmitting ? "Submitting..." : "Sign Up"}
           </button>

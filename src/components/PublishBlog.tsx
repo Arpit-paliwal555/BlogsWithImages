@@ -64,7 +64,7 @@ export default function CreateBlog() {
           }
         }}
       >
-        {({ isSubmitting, setFieldValue}) => (
+        {({ isSubmitting, setFieldValue, touched, errors }) => (
           <Form className="w-full max-w-md p-6 rounded-xl shadow-lg space-y-6">
             <h1 className="text-2xl font-bold text-center">Publish Blog</h1>
             <div>
@@ -99,11 +99,15 @@ export default function CreateBlog() {
                 placeholder="Your blog title"
                 className="w-full border rounded p-2"
               />
-              <ErrorMessage
+              <p className="p-1 h-4">
+                {touched.title && errors.title ? 
+                <ErrorMessage
                 name="title"
                 component="p"
                 className="text-xs text-red-500"
-              />
+              /> : ""}      
+            </p>
+              
             </div>
 
             <div className="space-y-2">
@@ -115,11 +119,14 @@ export default function CreateBlog() {
                 placeholder="Write your story"
                 className="w-full border rounded p-2"
               />
-              <ErrorMessage
-                name="description"
-                component="p"
-                className="text-xs text-red-500"
-              />
+              <p className="p-1 h-4">
+                {touched.description && errors.description ? 
+                  <ErrorMessage
+                  name="description"
+                  component="p"
+                  className="text-xs text-red-500"
+                /> : ""}      
+            </p>
             </div>
 
             <button
