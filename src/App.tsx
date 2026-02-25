@@ -11,9 +11,7 @@ import CreateBlog from './components/PublishBlog'
 function LandingLayout() {
   return (
     <>
-      {/* Landing-specific header or navbar-like component */}
-      {/* <LandingHeader /> */}
-      <Outlet /> {/* Renders the matched child route */}
+      <Outlet /> 
     </>
   );
 }
@@ -46,7 +44,6 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/publish" element={<CreateBlog />} />
-            {/* add more authenticated or regular routes here */}
           </Route>
         </Routes>
       </Router>

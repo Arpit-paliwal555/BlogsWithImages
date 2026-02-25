@@ -39,11 +39,11 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
             }}
             onSubmit={async (values, { setSubmitting}) => {
                        try{
-                const baseUrl = import.meta.env.VITE_BACKEND_URL;
-                if(!baseUrl){
-                    alert("Backend URL is not defined. Please set VITE_BACKEND_URL in your environment variables.");
-                    return;
-                }
+                // const baseUrl = import.meta.env.VITE_BACKEND_URL;
+                // if(!baseUrl){
+                //     alert("Backend URL is not defined. Please set VITE_BACKEND_URL in your environment variables.");
+                //     return;
+                // }
 
                 await api.post("/api/users/signin", values, {withCredentials: true});
                 

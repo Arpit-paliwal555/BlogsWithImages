@@ -1,10 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { jwtDecode, type JwtPayload } from "jwt-decode";
 import { api } from "../services/api";
 
 interface DecodedUser {
-  id: string;      // align to backend (string UUID or stringified id)
+  id: string;
   email: string;
   name: string;
 }
@@ -12,37 +10,39 @@ interface DecodedUser {
 export interface AuthContextType {
   user: DecodedUser | null;
   setUser: (u: DecodedUser | null) => void;
-  // loading: boolean;
+
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<DecodedUser | null>(null);
- // const [loading, setLoading] = useState(true);
 
-//   useEffect(() => {
-//   (async () => {
-//     try {
-//       const token = Cookies.get("token");
-//       if (!token) return setLoading(false);
 
-//       const { userId } = jwtDecode<{ userId: string }>(token);
-//       console.log("Decoded userId from token:", userId); // Debugging line to check decoded userId
-//       // fetch full user info from backend
-//       const res = await api.get(`/api/auth/${userId}`, { withCredentials: true });
-//       console.log("User data from backend:", res.data); // Debugging line to check user data from backend
-//       setUser(res.data);
-//     } catch (e) {
-//       setUser(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   })();
-// }, []);
+  useEffect(() => {
+    let isMounted = true;
 
+    (async () => {
+      try {
+        const me = await api.get("/api/users/me", { withCredentials: true });
+        if (isMounted) {
+          console.log("Authenticated user found:", me.data);
+          setUser(me.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.log("No authenticated user found.", error);
+          setUser(null);
+        }
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   return (
-    <AuthContext.Provider value={{ user, setUser}}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
