@@ -26,13 +26,13 @@ const Navbar: FunctionComponent<NavbarProps> = ()=>{
                     Home
                 </NavLink>
                 <NavLink
-                    to="/account"
+                    to="/my-blogs"
                     className={({ isActive }) =>
                         `${baseLink} ${isActive ? activeLink : "text-white/80"}`
                     }
-                    aria-label="My Account"
+                    aria-label="My Blogs"
                     >
-                    My Account
+                    My Blogs
                 </NavLink>
                 <NavLink
                     to="/options"

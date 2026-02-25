@@ -6,6 +6,7 @@ import SignupForm from './components/SignUp'
 import LoginForm from './components/Login'
 import LandingPage from './components/LandingPage'
 import CreateBlog from './components/PublishBlog'
+import { MyBlogs } from './components/MyBlogs'
 
 
 function LandingLayout() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/publish" element={<CreateBlog />} />
+            <Route path="/my-blogs" element={<MyBlogs />} />
           </Route>
         </Routes>
       </Router>
