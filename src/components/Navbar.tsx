@@ -6,15 +6,15 @@ interface NavbarProps{
 const baseLink =
   "px-3 py-1 rounded hover:bg-white/10 transition-colors";
 const activeLink =
-  "text-white font-semibold underline underline-offset-4";
+  "text-white font-semibold underline underline-offset-4 decoration-[#1DA1F2]";
 
 const Navbar: FunctionComponent<NavbarProps> = ()=>{
 
     return(
-        <nav className="flex justify-between p-4 border-2 bg-linear-to-r from-[#d1d5db] via-[#6b7280] to-[#374151]">
+        <nav className="flex justify-between p-4 border-2 bg-white shadow dark:bg-black/80">
             <div className="flex gap-1 items-center">
-                <img className="w-10 h-10" src="src\assets\blog.svg" alt="NA" />
-                <h1 className="dancing-script text-2xl">Blog & Images</h1>
+                <img className="w-10 h-10" src="src\assets\blog-white.svg" alt="NA" />
+                <h1 className="dancing-script text-2xl text-white">Blog & Images</h1>
             </div>
             <div className="flex gap-2 w-1/3 items-center">
                 <NavLink

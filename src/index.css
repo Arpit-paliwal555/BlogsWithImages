@@ -6,3 +6,15 @@
   font-weight: 400;
   font-style: normal;
 }
+html,
+body {
+  background-color: #1c2028;   /* black background for entire page */
+  color: #fff;              /* white text by default */
+}
+
+/* optionally target the root div if you prefer:
+#root {
+  background: black;
+  color: white;
+}
+*/

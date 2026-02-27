@@ -85,45 +85,45 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
 
   return (
     <div>
-    <div className="w-full mb-2 max-w-full flex justify-between sm:flex-row gap-3 items-stretch sm:items-center">
-        <input
-          type="text"
-          value={query}
-          onChange={onQueryChange}
-          placeholder="Search by title or description"
-          className="p-1 border-2 w-full"
-          aria-label="Search blog posts"
-        />
-        <div className="flex gap-2">
-          <label className="flex items-center gap-2 border p-1">
-            <span className="text-sm">Sort By</span>
-            <select
-              value={sortFields}
-              onChange={onSortFieldChange}
-              className="select select-bordered"
-              aria-label="Sort field"
-            >
-              <option value="publishedAt">Published date</option>
-              <option value="title">Title</option>
-              <option value="viewCount">Views</option>
-            </select>
-          </label>
+    <div className="w-full mb-2 flex flex-col sm:flex-row gap-3 sm:items-center justify-center items-center">
+      <input
+        type="text"
+        value={query}
+        onChange={onQueryChange}
+        placeholder="Search by title or description"
+        className="p-2 border-2 rounded-xl w-full sm:w-1/3"
+        aria-label="Search blog posts"
+      />
+      <div className="flex gap-2 p-2 rounded-xl">
+        <label className="flex items-center gap-2 p-1">
+        <span className="text-sm">Sort By</span>
+        <select
+          value={sortFields}
+          onChange={onSortFieldChange}
+          className="select select-bordered bg-[#1c2028]"
+          aria-label="Sort field"
+        >
+          <option value="publishedAt">Published date</option>
+          <option value="title">Title</option>
+          <option value="viewCount">Views</option>
+        </select>
+        </label>
 
-          <label className="flex items-center gap-2 border p-1">
-            <span className="text-sm">Order</span>
-            <select
-              value={sortOrder}
-              onChange={onSortOrderChange}
-              className="select select-bordered"
-              aria-label="Sort order"
-            >
-              <option value="asc">Asc</option>
-              <option value="desc">Desc</option>
-            </select>
-          </label>
-        </div>
+        <label className="flex items-center gap-2 p-1">
+        <span className="text-sm">Order</span>
+        <select
+          value={sortOrder}
+          onChange={onSortOrderChange}
+          className="select select-bordered bg-[#1c2028]"
+          aria-label="Sort order"
+        >
+          <option value="asc">Asc</option>
+          <option value="desc">Desc</option>
+        </select>
+        </label>
       </div>
-    <div className="border-2 border-gray-600 rounded-xl p-5 mt-0.5 gap-5 flex flex-col items-center">
+      </div>
+    <div className="rounded-xl p-5 mt-0.5 gap-5 flex flex-col items-center">
       {/* Results */}
       <div className="w-full max-w-2xl gap-2 flex flex-col">
         {filteredAndSorted.length === 0 ? (
