@@ -6,7 +6,6 @@ import type { IBlogpost } from "../interfaces/IBlogPost";
 const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
     const {title, description, publishedAt} = props;
     const {imageUrl} = props;
-    console.log("BlogCard received imageUrl:", imageUrl);
     const {user} = props;
     const date = new Date(publishedAt);
     const prettyDate = date.toLocaleDateString(undefined, {

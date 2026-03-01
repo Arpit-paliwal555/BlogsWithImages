@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const me = await api.get("/api/users/me", { withCredentials: true });
         if (isMounted) {
-          console.log("Authenticated user found:", me.data);
           setUser(me.data);
         }
       } catch (error) {

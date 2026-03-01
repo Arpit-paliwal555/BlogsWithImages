@@ -11,7 +11,6 @@ export const MyBlogs: FunctionComponent = () => {
     if (!auth || !user) {
         return <p className="text-red-500 text-center">You must be logged in to view your blogs.</p>;
     }
-    console.log("Fetching blogs for userId:", user?.id);
     useEffect(()=>{(async () => {
         try {
             const res = await api.get(`/api/blogs/users/${user?.id}`, { withCredentials: true });
@@ -28,11 +27,15 @@ export const MyBlogs: FunctionComponent = () => {
         }
     })()}, []);
     return (
-        <div className="mt-2">
-            <h1 className="text-2xl font-bold mb-4">My Blogs</h1>
-            {blogs.map(blog => (
-                <BlogCard key={blog.id} {...blog} />
-            ))}
+        <div className="flex justify-center px-4 py-6">
+            <div className="w-full max-w-3xl">
+                <h1 className="text-2xl font-bold mb-6 text-center">My Blogs</h1>
+                <div className="flex flex-col w-full gap-2">
+                    {blogs.map((blog) => (
+                        <BlogCard key={blog.id} {...blog} />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 } 
