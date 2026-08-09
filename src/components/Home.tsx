@@ -1,11 +1,14 @@
 import BlogList from './BlogList'
 import type { IBlogpost } from '../interfaces/IBlogPost'
+import type { IImagePost } from '../interfaces/IImagePost'
 import { useEffect, useState } from 'react'
 import { blogService } from '../services/blogs.service'
 export const Home = () => {
     const [list, setList] = useState<IBlogpost[]>([]);  
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<unknown>(null);
+    const [showImagePosts, setShowImagePosts] = useState(false);
+    const [imageList, setImageList] = useState<IImagePost[]>([]);
 
 
     // Fetch blogs when component mounts
@@ -50,15 +53,27 @@ export const Home = () => {
         )}
         <div className="flex justify-center">
           <button
-            onClick={() => {
-              setShowImagePosts(!showImagePosts);
-            }}
+            onClick={() => setShowImagePosts(prev => !prev)}
             className="border-2 w-fit p-3 mt-1"
           >
             See Image Posts
           </button>
         </div>
-        {showImagePosts && <ImageList images={imageList}></ImageList>}
+
+        {showImagePosts && (
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {imageList.length === 0 ? (
+              <p className="text-sm text-gray-500">No image posts available.</p>
+            ) : (
+              imageList.map(img => (
+                <div key={img.id} className="border rounded p-2">
+                  <img src={img.imageUrl} alt={img.caption} className="w-full h-48 object-cover" />
+                  <p className="mt-2">{img.caption}</p>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
     );
 }
