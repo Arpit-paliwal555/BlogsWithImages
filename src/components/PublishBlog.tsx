@@ -1,125 +1,144 @@
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useContext, useRef, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { api } from "../services/api";
 
-import type { FunctionComponent } from "react";
+interface Values {
+  title: string;
+  description: string;
+  imageUrl?: string;
+  userId: string | number;
+}
 
-type CreateBlogProps = {};
+export default function CreateBlog() {
+  const auth = useContext(AuthContext);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-const CreateBlog: FunctionComponent<CreateBlogProps> = () => {
+  if (!auth) {
+    return <p className="text-red-500 text-center">You must be logged in to publish a blog.</p>;
+  }
+
+  const { user } = auth;
+
+  if (!user)
+    return <p className="text-red-500 text-center">User info missing, please login again.</p>;
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <form
-        className="w-full max-w-md rounded-2xl border border-slate-200  backdrop-blur shadow-xl ring-1 ring-black/5 dark:ring-white/5
-                   p-6 sm:p-8 space-y-6 transition-shadow"
+    <div className="min-h-screen flex  flex-col items-center justify-center p-6">
+      <Formik
+        initialValues={{
+          title: "",
+          description: "",
+          imageUrl: "",
+          userId: user.id,
+        }}
+        enableReinitialize
+        validate={(values) => {
+          const errors: Partial<Record<keyof Values, string>> = {};
+          if (!values.title) errors.title = "Title is required!";
+          if (!values.description) errors.description = "Description is required!";
+          return errors;
+        }}
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          try {
+            const formData = new FormData();
+            formData.append("title", values.title);
+            formData.append("description", values.description);
+            formData.append("userId", values.userId.toString());
+            if (values.imageUrl) {
+              formData.append("image", values.imageUrl);
+            }
+            await api.post("/api/blogs", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+              withCredentials: true,
+            });
+            alert("Blog published successfully!");
+            resetForm();
+            setPreviewUrl(null);
+          } catch (e) {
+            alert("Error publishing blog.");
+          } finally {
+            setSubmitting(false);
+          }
+        }}
       >
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="dancing-script text-3xl sm:text-4xl font-semibold tracking-tight ">
-            Publish New Blog
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Share your thoughts with the world 🌍
-          </p>
-        </div>
+        {({ isSubmitting, setFieldValue, touched, errors }) => (
+          <Form className="w-full max-w-md p-6 rounded-xl shadow-lg space-y-6">
+            <h1 className="text-2xl font-bold text-center">Publish Blog</h1>
+            <div>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                    if (file) {
+                      setFieldValue("imageUrl", file); // store the file object, not base6
+                      setPreviewUrl(URL.createObjectURL(file)); // create a preview URL for the image
+                    }
+                }}
+                className="hidden"
+                ref={useRef<HTMLInputElement | null>(null)}
+              />
 
-        {/* Title */}
-        <div className="space-y-2">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium "
-          >
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            placeholder="e.g., 7 Lessons from Side Projects"
-            className="w-full rounded-xl border 
-                       px-3.5 py-2.5 
-                       shadow-sm focus:outline-none focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500
-                       dark:focus:ring-cyan-400/20 dark:focus:border-cyan-400 transition"
-          />
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Keep it concise and descriptive.
-          </p>
-        </div>
-
-        {/* Content */}
-        <div className="space-y-2">
-          <label
-            htmlFor="content"
-            className="block text-sm font-medium "
-          >
-            Content
-          </label>
-          <textarea
-            id="content"
-            name="content"
-            required
-            rows={6}
-            placeholder="Write your story..."
-            className="w-full resize-y rounded-xl border 
-                       px-3.5 py-3 
-                       shadow-sm focus:outline-none focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500
-                       dark:focus:ring-cyan-400/20 dark:focus:border-cyan-400 transition"
-          />
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Markdown supported (optional).
+              <label htmlFor="image-upload" className="border-2 border-dashed rounded-lg p-4 flex items-center justify-center cursor-pointer block">
+                {previewUrl ? (
+                  <img src={previewUrl} alt="Preview" className="max-h-40 object-contain" />
+                ) : (
+                  <img src="/src/assets/camera.svg" alt="Upload Image" className="w-12 h-12" />
+                )}
+              </label>
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="title">Title</label>
+              <Field
+                name="title"
+                type="text"
+                placeholder="Your blog title"
+                className="w-full border rounded p-2"
+              />
+              <p className="p-1 h-4">
+                {touched.title && errors.title ? 
+                <ErrorMessage
+                name="title"
+                component="p"
+                className="text-xs text-red-500"
+              /> : ""}      
             </p>
-            <span className="text-[11px] text-slate-400 dark:text-slate-500">
-              Min. 100 characters
-            </span>
-          </div>
-        </div>
+              
+            </div>
 
-        {/* Actions */}
-        <div className="pt-2 flex gap-3">
-          <button
-            type="button"
-            className="flex-1 rounded-xl border border-slate-300 dark:border-slate-700
-                       bg-transparent px-4 py-2.5
-                       hover:bg-slate-50 active:scale-[0.99]
-                       transition-colors"
-          >
-            Save draft
-          </button>
+            <div className="space-y-2">
+              <label htmlFor="description">Description</label>
+              <Field
+                as="textarea"
+                name="description"
+                rows={6}
+                placeholder="Write your story"
+                className="w-full border rounded p-2"
+              />
+              <p className="p-1 h-4">
+                {touched.description && errors.description ? 
+                  <ErrorMessage
+                  name="description"
+                  component="p"
+                  className="text-xs text-red-500"
+                /> : ""}      
+            </p>
+            </div>
 
-          <button
-            type="submit"
-            className="group flex-1 inline-flex items-center justify-center gap-2 rounded-xl
-                       bg-slate-500 text-white
-                       px-4 py-2.5 font-medium shadow-sm hover:shadow-md
-                       hover:bg-slate-800
-                       active:scale-[0.99] transition
-                       focus-visible:outline-none focus-visible:ring-4
-                       focus-visible:ring-cyan-500/30"
-          >
-            <svg
-              className="size-4 opacity-80 group-hover:opacity-100"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800"
             >
-              <path d="M22 2L11 13"></path>
-              <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
-            </svg>
-            Publish
-          </button>
-        </div>
-
-        {/* Subtle footer note */}
-        <p className="text-center text-[11px] text-slate-400 dark:text-slate-500">
-          By publishing, you agree to our community guidelines.
-        </p>
-      </form>
+              Publish
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
-};
-
-export default CreateBlog;
-``
+}

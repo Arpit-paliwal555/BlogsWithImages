@@ -6,14 +6,13 @@ import SignupForm from './components/SignUp'
 import LoginForm from './components/Login'
 import LandingPage from './components/LandingPage'
 import CreateBlog from './components/PublishBlog'
+import { MyBlogs } from './components/MyBlogs'
 
 
 function LandingLayout() {
   return (
     <>
-      {/* Landing-specific header or navbar-like component */}
-      {/* <LandingHeader /> */}
-      <Outlet /> {/* Renders the matched child route */}
+      <Outlet /> 
     </>
   );
 }
@@ -46,7 +45,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/publish" element={<CreateBlog />} />
-            {/* add more authenticated or regular routes here */}
+            <Route path="/my-blogs" element={<MyBlogs />} />
           </Route>
         </Routes>
       </Router>
