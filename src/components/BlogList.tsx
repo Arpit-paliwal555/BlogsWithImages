@@ -36,7 +36,7 @@ const makeComparator = (field: SortFields, order: SortOrder) => {
   }
   }
 };
-const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
+const BlogList: FunctionComponent<BlogListProps> = ({ list=[] }) => {
   // ui--states
   const [query, setQuery] = useState<string>("");
   const [sortFields, setSortFields] = useState<SortFields>("publishedAt");
@@ -73,12 +73,13 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
 
   // --Derrived list : filter + sort
   const filteredAndSorted = useMemo(() => {
+    const safeList = Array.isArray(list) ? list : [];
     const q = debouncedQuery.trim();
     const filtered = q.length
-      ? list.filter(
+      ? safeList.filter(
           (b) => includesCI(b.title, q) || includesCI(b.description, q)
         )
-      : list;
+      : safeList;
     const comparator = makeComparator(sortFields, sortOrder);
     return [...filtered].sort(comparator);
   }, [list, debouncedQuery, sortFields, sortOrder]);
@@ -118,7 +119,7 @@ const BlogList: FunctionComponent<BlogListProps> = ({ list }) => {
               aria-label="Sort order"
             >
               <option value="asc">Asc</option>
-              <option value="desc">Desc</option>
+              <option value="dsc">Desc</option>
             </select>
           </label>
         </div>
