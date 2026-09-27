@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import { Home } from './components/Home'
 import SignupForm from './components/SignUp'
 import LoginForm from './components/Login'
-import LandingPage from './components/LandingPage'
+import LandingPage from './components/landingPage/LandingPage'
 import CreateBlog from './components/PublishBlog'
 import { MyBlogs } from './components/MyBlogs'
 

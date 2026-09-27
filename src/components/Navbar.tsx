@@ -1,25 +1,25 @@
 import { useState, type FunctionComponent } from "react";
 import { NavLink } from "react-router-dom";
 interface NavbarProps {
-
+    landingPage?: boolean;
 }
 const baseLink =
     "px-3 py-1 rounded hover:bg-white/10 transition-colors";
 const activeLink =
     "text-white font-semibold underline underline-offset-4 decoration-[#1DA1F2]";
 
-const Navbar: FunctionComponent<NavbarProps> = () => {
+const Navbar: FunctionComponent<NavbarProps> = ({ landingPage = false }) => {
     const [open, setOpen] = useState(false);
     return (
-        <nav className="flex w-full items-center justify-between p-4 border-b bg-white shadow dark:bg-black/80">
+        <nav className={`relative z-50 flex h-[72px] w-full shrink-0 items-center justify-between border-b p-4 ${landingPage ? "border-white/15 bg-[#1c2028] text-white" : "bg-white shadow dark:bg-black/80"}`}>
             <div className="flex items-center gap-2">
                 <img className="w-10 h-10" src="/src/assets/blog-white.svg" alt="Logo" />
-                <h1 className="dancing-script text-2xl text-zinc-800 dark:text-white">Blog &amp; Images</h1>
+                <h1 className={`dancing-script text-2xl ${landingPage ? "text-white" : "text-zinc-800 dark:text-white"}`}>Blog &amp; Images</h1>
             </div>
 
             {/* Hamburger (mobile) */}
             <button
-                className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`sm:hidden inline-flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${landingPage ? "text-white hover:bg-white/10" : "text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-white"}`}
                 aria-label="Toggle menu"
                 aria-expanded={open}
                 onClick={() => setOpen((v) => !v)}
@@ -40,7 +40,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                     to="/home"
                     end
                     className={({ isActive }) =>
-                        `${baseLink} ${isActive ? activeLink : "text-zinc-600 dark:text-zinc-300"}`
+                        `${baseLink} ${isActive ? activeLink : landingPage ? "text-white/80" : "text-zinc-600 dark:text-zinc-300"}`
                     }
                     aria-label="Home"
                 >
@@ -50,7 +50,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                 <NavLink
                     to="/my-blogs"
                     className={({ isActive }) =>
-                        `${baseLink} ${isActive ? activeLink : "text-zinc-600 dark:text-zinc-300"}`
+                        `${baseLink} ${isActive ? activeLink : landingPage ? "text-white/80" : "text-zinc-600 dark:text-zinc-300"}`
                     }
                     aria-label="My Blogs"
                 >
@@ -60,7 +60,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                 <NavLink
                     to="/"
                     className={({ isActive }) =>
-                        `${baseLink} ${isActive ? activeLink : "text-zinc-600 dark:text-zinc-300"}`
+                        `${baseLink} ${isActive ? activeLink : landingPage ? "text-white/80" : "text-zinc-600 dark:text-zinc-300"}`
                     }
                     aria-label="Options"
                 >
@@ -69,7 +69,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
 
                 <NavLink
                     to="/publish"
-                    className="inline-flex items-center gap-2 border rounded-md px-3 py-2 cursor-pointer text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+                    className={`inline-flex items-center gap-2 rounded-md border px-3 py-2 transition-colors ${landingPage ? "border-white/30 text-white hover:bg-white/10" : "cursor-pointer text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"}`}
                     aria-label="Publish"
                 >
                     Publish
@@ -91,7 +91,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
 
             {/* Mobile dropdown (collapsible) */}
             <div
-                className={`sm:hidden absolute left-0 right-0 top-[64px] z-40 border-t bg-white/95 backdrop-blur dark:bg-black/80 shadow
+                className={`sm:hidden absolute left-0 right-0 top-[72px] z-40 border-t backdrop-blur shadow ${landingPage ? "border-white/15 bg-[#1c2028]/95" : "bg-white/95 dark:bg-black/80"}
         transition-[max-height,opacity] duration-300 overflow-hidden 
         ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
             >
@@ -101,7 +101,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                         end
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                            `rounded-md px-3 py-2 ${isActive ? activeLink : "text-zinc-700 dark:text-zinc-200"}`
+                            `rounded-md px-3 py-2 ${isActive ? activeLink : landingPage ? "text-white/80" : "text-zinc-700 dark:text-zinc-200"}`
                         }
                     >
                         Home
@@ -110,7 +110,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                         to="/my-blogs"
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                            `rounded-md px-3 py-2 ${isActive ? activeLink : "text-zinc-700 dark:text-zinc-200"}`
+                            `rounded-md px-3 py-2 ${isActive ? activeLink : landingPage ? "text-white/80" : "text-zinc-700 dark:text-zinc-200"}`
                         }
                     >
                         My Blogs
@@ -119,7 +119,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                         to="/options"
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                            `rounded-md px-3 py-2 ${isActive ? activeLink : "text-zinc-700 dark:text-zinc-200"}`
+                            `rounded-md px-3 py-2 ${isActive ? activeLink : landingPage ? "text-white/80" : "text-zinc-700 dark:text-zinc-200"}`
                         }
                     >
                         Options
@@ -127,7 +127,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                     <NavLink
                         to="/publish"
                         onClick={() => setOpen(false)}
-                        className="mt-2 inline-flex items-center gap-2 rounded-md border px-3 py-2 text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                        className={`mt-2 inline-flex items-center gap-2 rounded-md border px-3 py-2 ${landingPage ? "border-white/30 text-white hover:bg-white/10" : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"}`}
                     >
                         Publish
                         <svg
