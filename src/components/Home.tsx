@@ -40,7 +40,7 @@ export const Home = () => {
       
     // Optional: only render BlogList when we know list is an array
     if (loading) return <div className="mt-2">Loading…</div>;
-    if (error) return <div className="mt-2 text-red-600">Failed to load blogs.</div>;
+    if (error) return <div className="mt-2 text-red-600">Failed to load blogs, login required.</div>;
 
     return (
       <div className='mt-2'>
