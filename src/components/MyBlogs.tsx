@@ -8,24 +8,35 @@ export const MyBlogs: FunctionComponent = () => {
     const auth = useContext(AuthContext);
     const [blogs, setBlogs] = useState<IBlogpost[]>([]);
     const { user } = auth || {};
+    const userId = user?.id;
+
+    useEffect(() => {
+        if (userId === undefined) return;
+
+        (async () => {
+            try {
+                const res = await api.get(`/api/blogs/users/${userId}`, { withCredentials: true });
+                const list = Array.isArray(res.data)
+                    ? res.data
+                    : Array.isArray(res.data?.blogs)
+                        ? res.data.blogs
+                        : [];
+
+                setBlogs(list);
+                console.log("Fetched blogs:", list);
+            } catch (error) {
+                console.error("Failed to fetch my blogs:", error);
+            }
+        })();
+    }, [userId]);
+
+    if (auth?.isLoading) {
+        return <p className="text-center">Loading your blogs...</p>;
+    }
+
     if (!auth || !user) {
         return <p className="text-red-500 text-center">You must be logged in to view your blogs.</p>;
     }
-    useEffect(()=>{(async () => {
-        try {
-            const res = await api.get(`/api/blogs/users/${user?.id}`, { withCredentials: true });
-            const list = Array.isArray(res.data) 
-                    ? res.data // if backend returns array
-                    : Array.isArray(res.data?.blogs) 
-                        ? res.data.blogs 
-                        : [];
-
-            setBlogs(list);
-            console.log("Fetched blogs:", list);
-        } catch (error) {
-            console.error("Failed to fetch my blogs:", error);
-        }
-    })()}, []);
     return (
         <div className="flex justify-center px-4 py-6">
             <div className="w-full max-w-3xl">

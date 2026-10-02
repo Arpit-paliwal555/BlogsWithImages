@@ -10,6 +10,7 @@ interface DecodedUser {
 export interface AuthContextType {
   user: DecodedUser | null;
   setUser: (u: DecodedUser | null) => void;
+  isLoading: boolean;
 
 }
 
@@ -17,6 +18,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<DecodedUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
@@ -33,6 +35,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           console.log("No authenticated user found.", error);
           setUser(null);
         }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     })();
 
@@ -41,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
