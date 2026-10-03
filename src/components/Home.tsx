@@ -43,7 +43,7 @@ export const Home = () => {
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
-          <p className="text-red-600">{error}</p>
+          <p className="text-red-600">{error instanceof Error ? error.message : String(error)}</p>
         ) : (
           <BlogList list={list} />
         )}
