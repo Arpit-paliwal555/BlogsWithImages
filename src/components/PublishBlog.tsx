@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { api } from "../services/api";
+import { Navigate } from "react-router-dom";
 
 interface Values {
   title: string;
@@ -15,13 +16,17 @@ export default function CreateBlog() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   if (!auth) {
-    return <p className="text-red-500 text-center">You must be logged in to publish a blog.</p>;
+    return <Navigate to="/login" replace />;
+  }
+
+  if (auth.isLoading) {
+    return <p className="text-center">Checking your session...</p>;
   }
 
   const { user } = auth;
 
   if (!user)
-    return <p className="text-red-500 text-center">User info missing, please login again.</p>;
+    return <Navigate to="/login" replace />;
 
   return (
     <div className="min-h-screen flex  flex-col items-center justify-center p-6">

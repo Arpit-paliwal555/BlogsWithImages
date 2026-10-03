@@ -3,6 +3,7 @@ import BlogCard from "./BlogCard";
 import { api } from "../services/api";
 import { AuthContext } from "../context/AuthContext";
 import type { IBlogpost } from "../interfaces/IBlogPost";
+import { Navigate } from "react-router-dom";
 
 export const MyBlogs: FunctionComponent = () => {
     const auth = useContext(AuthContext);
@@ -35,7 +36,7 @@ export const MyBlogs: FunctionComponent = () => {
     }
 
     if (!auth || !user) {
-        return <p className="text-red-500 text-center">You must be logged in to view your blogs.</p>;
+        return <Navigate to="/login" replace />;
     }
     return (
         <div className="flex justify-center px-4 py-6">
