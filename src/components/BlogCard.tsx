@@ -1,4 +1,5 @@
 import type { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 import type { IBlogpost } from "../interfaces/IBlogPost";
 
 
@@ -67,13 +68,13 @@ const BlogCard: FunctionComponent<IBlogpost> = (props:IBlogpost) => {
 
           {/* Footer: lightweight meta/actions row (optional) */}
           <div className="mt-3 flex items-center gap-4 text-sm text-white/60">
-            <a
-              href="#"
+            <Link
+              to={`/blogs/${props.id}`}
               className="hover:text-twitter transition-colors underline decoration-transparent hover:decoration-twitter underline-offset-4"
-              aria-label="Read more"
+              aria-label={`Read more: ${title}`}
             >
               Read more
-            </a>
+            </Link>
             <span className="text-white/30">·</span>
             <span className="truncate">By {user?.username}</span>
           </div>

@@ -9,6 +9,7 @@ import LandingPage from './components/landingPage/LandingPage'
 import CreateBlog from './components/PublishBlog'
 import { MyBlogs } from './components/MyBlogs'
 import { AuthContext } from './context/AuthContext'
+import BlogPage from './components/BlogPage'
 
 
 function LandingLayout() {
@@ -58,6 +59,7 @@ function App() {
           {/* Everything else uses the main app layout */}
           <Route element={<AppLayout />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/blogs/:id" element={<BlogPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route element={<ProtectedRoutes />}>

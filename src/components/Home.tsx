@@ -13,15 +13,8 @@ export const Home = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const blogs: IBlogpost[] = await blogService.getBlogs();                
-                const normalized =
-                          Array.isArray(blogs)
-                            ? blogs
-                            : Array.isArray((blogs as any)?.items)
-                            ? (blogs as any).items
-                            : [];
-
-                        setList(normalized);
+                const blogs: IBlogpost[] = await blogService.getBlogs();
+                setList(blogs);
             } catch (error) {
                 console.error("Failed to fetch blogs:", error);
                 setError(error);
